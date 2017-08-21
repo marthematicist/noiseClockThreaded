@@ -30,7 +30,7 @@ void setup() {
   PA = new PixelArray();
   fld0 = new float[PA.num];
   fld1 = new float[PA.num];
-  col0 = new color[PA.num];
+  col0 = new color[width*height];
   for( int i = 0 ; i < PA.num ; i++ ) {
     fld0[i] = 0;
     fld1[i] = 0;
@@ -65,18 +65,19 @@ float[] bandStart = { 0.4 , 0.5 , 0.6 };
 float[] bandWidth = { 0.05 , 0.05 , 0.05 };
 int numBands = 3;
 
+
+boolean logOut = true;
 void draw() {
+  if( logOut ) { println( "frame: " , frameCount , "  time: " , millis() , "  FRAMESTART" ); }
   
   colFlg_draw_goRender = true;
   
   loadPixels();
-  for( int i = 0 ; i < PA.num ; i++ ) {
-    for( int p = 0 ; p < PA.P[i].np ; p++ ) {
-      pixels[ PA.P[i].ip[p] ] = col0[i];
-      //println( col0[i] );
-    }
+  for( int i = 0 ; i < width*height ; i++ ) {
+      pixels[ i ] = col0[i];
   }
   updatePixels();
+  if( logOut ) { println( "frame: " , frameCount , "  time: " , millis() , "  PIXELSDONE" ); }
   
   while( !colFlg_thread_doneRendering ) { 
   }
