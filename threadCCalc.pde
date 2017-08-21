@@ -1,29 +1,24 @@
 // color calulation thread
 
-void threadCCalc() {
+void threadCCalc0() {
   color[] col0a = new color[PA.num];
-  println( PA.num );
-  for( int i = 0 ; i < PA.num ; i++ ) {
+  for( int i = 0 ; i < num0 ; i++ ) {
     col0a[i] = color(0);
   }
   color bgColor = color( 0 , 0 , 0 );
   color outlineColor = color( 255 , 255 , 255 );
   
   while( true ) {
-    while( !colFlg_draw_goRender ) {
-    }
-    colFlg_draw_goRender = false;
+    //println( "thread0 loop started" );
     
-    // request fld progress
-    fldFlag_draw_requestProgress = true;
-    while( !fldFlag_thread_progressReady ) {
-      // wait until progress is ready
+    while( !colFlg_draw_goRender0 ) {
     }
-    float prog = fldProgress;
-    fldFlag_thread_progressReady = false;
+    colFlg_thread_Rendering0 = true;
+    //colFlg_thread_doneRendering0 = false;
     
-    for( int i = 0 ; i < PA.num ; i++ ) {
-      float fldVal = lerp( fld0[i] , fld1[i] , prog );
+    
+    for( int i = 0 ; i < num0 ; i++ ) {
+      float fldVal = lerp( fld0[i] , fld1[i] , currentProgress );
       color c = bgColor;
       for( int b = 0 ; b < numBands ; b++ ) {
         if( fldVal >= bandStart[b] && fldVal <= (bandStart[b]+bandWidth[b]) ) {
@@ -32,23 +27,66 @@ void threadCCalc() {
       }
       col0a[ i ] = c;
     }
-    
+    //colFlg_thread_Rendering0 = false;
     colFlg_thread_doneRendering0 = true;
-    
-    
-    
-    while( !colFlg_draw_goUpdate ) {
+
+    while( !colFlg_draw_goUpdate0 ) {
     }
+    colFlag_thread_Updating0 = true;
+    //colFlag_thread_doneUpdating0 = false;
     
-    
-    
-    colFlg_draw_goUpdate = false;
-    for( int i = 0 ; i < PA.num ; i++ ) {
+    for( int i = 0 ; i < num0 ; i++ ) {
       col0[i] = col0a[i];
     }
+    //colFlag_thread_Updating0 = false;
     colFlag_thread_doneUpdating0 = true;
     
+    //println( "thread0 loop complete" );
+    colFlag_thread_loopComplete0 = true;
+  }
+}
+
+void threadCCalc1() {
+  color[] col1a = new color[PA.num];
+  for( int i = 0 ; i < num1 ; i++ ) {
+    col1a[i] = color(0);
+  }
+  color bgColor = color( 0 , 0 , 0 );
+  color outlineColor = color( 255 , 255 , 255 );
+  
+  while( true ) {
+    //println( "thread1 loop started" );
     
+    while( !colFlg_draw_goRender1 ) {
+    }
+    colFlg_thread_Rendering1 = true;
+    //colFlg_thread_doneRendering1 = false;
     
+    for( int i = 0 ; i < num1 ; i++ ) {
+      float fldVal = lerp( fld0[i+num0] , fld1[i+num0] , currentProgress );
+      color c = bgColor;
+      for( int b = 0 ; b < numBands ; b++ ) {
+        if( fldVal >= bandStart[b] && fldVal <= (bandStart[b]+bandWidth[b]) ) {
+          c = outlineColor;
+        }
+      }
+      col1a[ i ] = c;
+    }
+    //colFlg_thread_Rendering1 = false;
+    colFlg_thread_doneRendering1 = true;
+
+    while( !colFlg_draw_goUpdate1 ) {
+    }
+    colFlag_thread_Updating1 = true;
+    //colFlag_thread_doneUpdating1 = false;
+    
+    for( int i = 0 ; i < num1 ; i++ ) {
+      col1[i] = col1a[i];
+    }
+    //colFlag_thread_Updating1 = false;
+    colFlag_thread_doneUpdating1 = true;
+    
+    //println( "thread1 loop complete" );
+    colFlag_thread_loopComplete1 = true;
   }
 }
