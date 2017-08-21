@@ -4,10 +4,10 @@ float fDetail = 0.008;
 float fSpeed = 0.02;
 float hDetail = 0.002;
 float hSpeed = 0.01;
-float sDetail = 0.009;
-float sSpeed = 0.02;
-float bDetail = 0.009;
-float bSpeed = 0.01;
+float sDetail = 0.029;
+float sSpeed = 0.2;
+float bDetail = 0.049;
+float bSpeed = 0.3;
 
 void threadFCalc() {
   int num = PA.num;
@@ -96,8 +96,8 @@ void threadFCalc() {
       n = 0;
       tf += fSpeed;
       th += hSpeed;
-      ts += bSpeed;
-      tb += fSpeed;
+      tb += bSpeed;
+      ts += sSpeed;
     }
     
     

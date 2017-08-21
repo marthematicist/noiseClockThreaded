@@ -1,6 +1,6 @@
 // color calulation thread
 
-float alpha = 0.2;
+float alpha = 0.25;
 
 color bgColor = color( 0 , 0 , 0 );
 color outlineColor = color( 255 , 255 , 255 );
@@ -8,9 +8,9 @@ color outlineColor = color( 255 , 255 , 255 );
 //color bgColor = color( 255 , 255 , 255 );
 //color outlineColor = color( 0 , 0 , 0 );
 
-float[] bandStart = { 0.4 , 0.5 , 0.6 };
-float[] bandEnd   = { 0.44 , 0.54 , 0.64 };
-float[] bandWidth = { 0.007 , 0.007 , 0.007 };
+float[] bandStart = { 0.20 , 0.37 , 0.47 , 0.57 , 0.70 };
+float[] bandEnd   = { 0.30 , 0.43 , 0.53 , 0.63 , 0.80 };
+float[] bandWidth = { 0.007 , 0.007 , 0.007 , 0.007 , 0.007 };
 int numBands = 3;
 
 void threadCCalc0() {
