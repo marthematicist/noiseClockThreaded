@@ -1,3 +1,5 @@
+// fld calc thread
+
 float fDetail = 0.01;
 float fSpeed = 0.01;
 
@@ -44,12 +46,10 @@ void threadFCalc() {
       
       // update fld data
       fldFlag_draw_goUpdate = false;
-      fldFlag_thread_updating = true;
       for( int i = 0 ; i < num ; i++ ) {
         fld0[i] = fld1[i];
         fld1[i] = fld2[i];
       }
-      fldFlag_thread_updating = false;
       fldFlag_thread_doneUpdating = true;
       
       
