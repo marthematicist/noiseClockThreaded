@@ -23,6 +23,7 @@ class PixelArray {
 class Pix {
   int[] xp;          // x coordinate of screen pixels
   int[] yp;          // y coordinate of screen pixels
+  int[] ip;          // indeces of pixels
   int np;
   float xr;          // render x coord 
   float yr;          // render y coord
@@ -64,9 +65,11 @@ class Pix {
     }
     this.xp = new int[np];
     this.yp = new int[np];
+    this.ip = new int[np];
     for( int i = 0 ; i < np ; i++ ) {
       xp[i] = xt.get(i);
       yp[i] = yt.get(i);
+      ip[i] = xt.get(i) + yt.get(i)*width;
     }
     
     float ang = atan2( float(yin) , float(xin) ) % ( TWO_PI/12.0 );
@@ -85,9 +88,11 @@ class Pix {
     output.yr = this.yr;
     output.xp = new int[np];
     output.yp = new int[np];
+    output.ip = new int[np];
     for( int i = 0 ; i < np ; i++ ) {
       output.xp[i] = this.xp[i];
       output.yp[i] = this.yp[i];
+      output.ip[i] = this.ip[i];
     }
     return output;
   }

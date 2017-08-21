@@ -72,9 +72,7 @@ void draw() {
   loadPixels();
   for( int i = 0 ; i < PA.num ; i++ ) {
     for( int p = 0 ; p < PA.P[i].np ; p++ ) {
-      int x = PA.P[i].xp[p];
-      int y = PA.P[i].yp[p];
-      pixels[ x + y*width ] = col0[i];
+      pixels[ PA.P[i].ip[p] ] = col0[i];
       //println( col0[i] );
     }
   }
@@ -98,6 +96,8 @@ void draw() {
   }
   colFlag_thread_doneUpdating = false;
   
-  
+  if( frameCount%60 == 0 ) {
+    println( "frameRate: " , frameRate );
+  }
   
 }
