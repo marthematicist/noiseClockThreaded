@@ -1,12 +1,23 @@
 // color calulation thread
 
+float alpha = 0.2;
+
+color bgColor = color( 0 , 0 , 0 );
+color outlineColor = color( 255 , 255 , 255 );
+
+//color bgColor = color( 255 , 255 , 255 );
+//color outlineColor = color( 0 , 0 , 0 );
+
+float[] bandStart = { 0.4 , 0.5 , 0.6 };
+float[] bandEnd   = { 0.44 , 0.54 , 0.64 };
+float[] bandWidth = { 0.007 , 0.007 , 0.007 };
+int numBands = 3;
+
 void threadCCalc0() {
   color[] col0a = new color[PA.num];
   for( int i = 0 ; i < num0 ; i++ ) {
     col0a[i] = color(0);
   }
-  color bgColor = color( 0 , 0 , 0 );
-  color outlineColor = color( 255 , 255 , 255 );
   
   while( true ) {
     //println( "thread0 loop started" );
@@ -19,13 +30,20 @@ void threadCCalc0() {
     
     for( int i = 0 ; i < num0 ; i++ ) {
       float fldVal = lerp( fld0[i] , fld1[i] , currentProgress );
+      float hueVal = lerp360( hue0[i] , hue1[i] , currentProgress );
+      float satVal = lerp( sat0[i] , sat1[i] , currentProgress );
+      float briVal = lerp( bri0[i] , bri1[i] , currentProgress );
       color c = bgColor;
       for( int b = 0 ; b < numBands ; b++ ) {
-        if( fldVal >= bandStart[b] && fldVal <= (bandStart[b]+bandWidth[b]) ) {
-          c = outlineColor;
+        if( fldVal >= (bandStart[b]-bandWidth[b]) && fldVal <= (bandEnd[b]+bandWidth[b]) ) {
+          if( fldVal >= bandStart[b] && fldVal <= bandEnd[b] ) {
+            c = hsbColor( hueVal , satVal , briVal );
+          } else {
+            c = outlineColor;
+          }
         }
       }
-      col0a[ i ] = c;
+      col0a[i] = lerpColor( col0a[i] ,  c , alpha );
     }
     //colFlg_thread_Rendering0 = false;
     colFlg_thread_doneRendering0 = true;
@@ -51,8 +69,6 @@ void threadCCalc1() {
   for( int i = 0 ; i < num1 ; i++ ) {
     col1a[i] = color(0);
   }
-  color bgColor = color( 0 , 0 , 0 );
-  color outlineColor = color( 255 , 255 , 255 );
   
   while( true ) {
     //println( "thread1 loop started" );
@@ -64,13 +80,20 @@ void threadCCalc1() {
     
     for( int i = 0 ; i < num1 ; i++ ) {
       float fldVal = lerp( fld0[i+num0] , fld1[i+num0] , currentProgress );
+      float hueVal = lerp360( hue0[i+num0] , hue1[i+num0] , currentProgress );
+      float satVal = lerp( sat0[i+num0] , sat1[i+num0] , currentProgress );
+      float briVal = lerp( bri0[i+num0] , bri1[i+num0] , currentProgress );
       color c = bgColor;
       for( int b = 0 ; b < numBands ; b++ ) {
-        if( fldVal >= bandStart[b] && fldVal <= (bandStart[b]+bandWidth[b]) ) {
-          c = outlineColor;
+        if( fldVal >= (bandStart[b]-bandWidth[b]) && fldVal <= (bandEnd[b]+bandWidth[b]) ) {
+          if( fldVal >= bandStart[b] && fldVal <= bandEnd[b] ) {
+            c = hsbColor( hueVal , satVal , briVal );
+          } else {
+            c = outlineColor;
+          }
         }
       }
-      col1a[ i ] = c;
+      col1a[i] = lerpColor( col1a[i] ,  c , alpha );
     }
     //colFlg_thread_Rendering1 = false;
     colFlg_thread_doneRendering1 = true;

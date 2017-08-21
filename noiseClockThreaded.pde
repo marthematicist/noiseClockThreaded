@@ -3,6 +3,12 @@ volatile PixelArray PA;
 // fld: controls the field ( background, outline, or fill )
 volatile float[] fld0;
 volatile float[] fld1;
+volatile float[] hue0;
+volatile float[] hue1;
+volatile float[] sat0;
+volatile float[] sat1;
+volatile float[] bri0;
+volatile float[] bri1;
 volatile float fldProgress = 0;
 volatile float currentProgress = 0;
 volatile boolean fldFlag_thread_readyToUpdate = false;
@@ -44,9 +50,21 @@ void setup() {
   PA = new PixelArray();
   fld0 = new float[PA.num];
   fld1 = new float[PA.num];
+  hue0 = new float[PA.num];
+  hue1 = new float[PA.num];
+  sat0 = new float[PA.num];
+  sat1 = new float[PA.num];
+  bri0 = new float[PA.num];
+  bri1 = new float[PA.num];
   for( int i = 0 ; i < PA.num ; i++ ) {
     fld0[i] = 0;
     fld1[i] = 0;
+    hue0[i] = 0;
+    hue1[i] = 0;
+    sat0[i] = 0;
+    sat1[i] = 0;
+    bri0[i] = 0;
+    bri1[i] = 0;
   }
   num0 = PA.num/2;
   num1 = PA.num-num0;
@@ -85,9 +103,7 @@ void setup() {
   thread( "threadCCalc1" );
 }
 
-float[] bandStart = { 0.4 , 0.5 , 0.6 };
-float[] bandWidth = { 0.05 , 0.05 , 0.05 };
-int numBands = 3;
+
 
 
 boolean logOut = false;
