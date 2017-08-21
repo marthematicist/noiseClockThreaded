@@ -11,10 +11,13 @@ volatile boolean fldFlag_draw_requestProgress = false;
 volatile boolean fldFlag_thread_progressReady = false;
 
 volatile color[] col0;
+volatile color[] col1;
 volatile boolean colFlg_draw_goRender = false;
-volatile boolean colFlg_thread_doneRendering = false;
+volatile boolean colFlg_thread_doneRendering0 = false;
+volatile boolean colFlg_thread_doneRendering1 = false;
 volatile boolean colFlg_draw_goUpdate = false;
-volatile boolean colFlag_thread_doneUpdating = true;
+volatile boolean colFlag_thread_doneUpdating0 = true;
+volatile boolean colFlag_thread_doneUpdating1 = true;
 
 
 // resolution helpers
@@ -30,7 +33,8 @@ void setup() {
   PA = new PixelArray();
   fld0 = new float[PA.num];
   fld1 = new float[PA.num];
-  col0 = new color[width*height];
+  col0 = new color[PA.num];
+  col1 = new color[PA.num];
   for( int i = 0 ; i < PA.num ; i++ ) {
     fld0[i] = 0;
     fld1[i] = 0;
@@ -71,18 +75,21 @@ void draw() {
   if( logOut ) { println( "frame: " , frameCount , "  time: " , millis() , "  FRAMESTART" ); }
   
   colFlg_draw_goRender = true;
+  if( logOut ) { println( "frame: " , frameCount , "  time: " , millis() , "  RENDERSTART" ); }
   
   loadPixels();
   for( int i = 0 ; i < width*height ; i++ ) {
-      pixels[ i ] = col0[i];
+      pixels[ i ] = col0[ PA.I[i] ];
   }
   updatePixels();
   if( logOut ) { println( "frame: " , frameCount , "  time: " , millis() , "  PIXELSDONE" ); }
   
-  while( !colFlg_thread_doneRendering ) { 
+  while( !colFlg_thread_doneRendering0 ) { 
   }
-  colFlg_thread_doneRendering = false;
+  colFlg_thread_doneRendering0 = false;
+  if( logOut ) { println( "frame: " , frameCount , "  time: " , millis() , "  RENDERDONE" ); }
   colFlg_draw_goUpdate = true;
+  if( logOut ) { println( "frame: " , frameCount , "  time: " , millis() , "  PIXEL UPDATE STARTED" ); }
   
   if( fldFlag_thread_readyToUpdate ) {
     fldFlag_thread_readyToUpdate = false;
@@ -93,9 +100,13 @@ void draw() {
     fldFlag_thread_doneUpdating = false;
   }
   
-  while( !colFlag_thread_doneUpdating ) {
+  while( !colFlag_thread_doneUpdating0 ) {
   }
-  colFlag_thread_doneUpdating = false;
+  colFlag_thread_doneUpdating0 = false;
+  if( logOut ) { println( "frame: " , frameCount , "  time: " , millis() , "  PIXELS UPDATE DONE" ); }
+  
+  
+  
   
   if( frameCount%60 == 0 ) {
     println( "frameRate: " , frameRate );

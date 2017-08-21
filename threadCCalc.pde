@@ -1,9 +1,10 @@
 // color calulation thread
 
 void threadCCalc() {
-  color[] col1 = new color[width*height];
+  color[] col0a = new color[PA.num];
+  println( PA.num );
   for( int i = 0 ; i < PA.num ; i++ ) {
-    col1[i] = color(0);
+    col0a[i] = color(0);
   }
   color bgColor = color( 0 , 0 , 0 );
   color outlineColor = color( 255 , 255 , 255 );
@@ -12,8 +13,6 @@ void threadCCalc() {
     while( !colFlg_draw_goRender ) {
     }
     colFlg_draw_goRender = false;
-    
-    if( logOut ) { println( "frame: " , frameCount , "  time: " , millis() , "  RENDERSTART" ); }
     
     // request fld progress
     fldFlag_draw_requestProgress = true;
@@ -31,27 +30,25 @@ void threadCCalc() {
           c = outlineColor;
         }
       }
-      for( int p = 0 ; p < PA.P[i].np ; p++ ) {
-        col1[ PA.P[i].ip[p] ] = c;
-      }
+      col0a[ i ] = c;
     }
     
-    colFlg_thread_doneRendering = true;
+    colFlg_thread_doneRendering0 = true;
     
-    if( logOut ) { println( "frame: " , frameCount , "  time: " , millis() , "  RENDERDONE" ); }
+    
     
     while( !colFlg_draw_goUpdate ) {
     }
     
-    if( logOut ) { println( "frame: " , frameCount , "  time: " , millis() , "  PIXEL UPDATE STARTED" ); }
+    
     
     colFlg_draw_goUpdate = false;
-    for( int i = 0 ; i < width*height ; i++ ) {
-      col0[i] = col1[i];
+    for( int i = 0 ; i < PA.num ; i++ ) {
+      col0[i] = col0a[i];
     }
-    colFlag_thread_doneUpdating = true;
+    colFlag_thread_doneUpdating0 = true;
     
-    if( logOut ) { println( "frame: " , frameCount , "  time: " , millis() , "  PIXELS UPDATE DONE" ); }
+    
     
   }
 }

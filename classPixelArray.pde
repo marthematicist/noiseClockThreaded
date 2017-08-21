@@ -1,5 +1,6 @@
 class PixelArray {
   Pix[] P;
+  int[] I;    // indices
   int num;
   
   PixelArray() {
@@ -16,6 +17,13 @@ class PixelArray {
     P = new Pix[num];
     for( int i = 0 ; i < num ; i++ ) {
       P[i] = PT.get(i).copy();
+    }
+    
+    this.I = new int[width*height];
+    for( int i = 0 ; i < num ; i++ ) {
+      for( int p = 0 ; p < P[i].np ; p++ ) {
+        I[ P[i].xp[p] + P[i].yp[p]*width ] = i;
+      }
     }
   }
 }
