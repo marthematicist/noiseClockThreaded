@@ -108,6 +108,9 @@ void setup() {
   pg.strokeWeight(borderWidth);
   pg.ellipse( 0.5*width , 0.5*height , 2*(sBandCenter - 0.5*sBandWidth) , 2*(sBandCenter - 0.5*sBandWidth) );
   pg.ellipse( 0.5*width , 0.5*height , 2*(sBandCenter + 0.5*sBandWidth) , 2*(sBandCenter + 0.5*sBandWidth) );
+  pg.strokeWeight(borderWidth*2);
+  pg.line( 0.12*width , 0.5*borderWidth , 0.88*width , 0.5*borderWidth );
+  pg.line( 0.12*width , height-0.5*borderWidth , 0.88*width , height-0.5*borderWidth );
   
   pg.endDraw();
   
@@ -262,9 +265,12 @@ void draw() {
   float radAmt = 5;
   noStroke();
   fill(outlineColor);
-  float sAng = (-0.25+float(millis()-millisOffset)/60000.0)*TWO_PI;
-  float mAng = (-0.25+float(minute())/60.0)*TWO_PI + sAng/60;
-  float hAng = (-0.25+float(hour()%12)/12.0)*TWO_PI + mAng/60;
+  float sPart = float(millis()-millisOffset)/60000.0;
+  float mPart = float(minute())/60.0 + sPart/60.0;
+  float hPart = float(hour()%12)/12.0 + mPart/60.0;
+  float sAng = (-0.25+sPart)*TWO_PI;
+  float mAng = (-0.25+mPart)*TWO_PI;
+  float hAng = (-0.25+hPart)*TWO_PI + mAng/60;
   ellipse( halfWidth + mBandCenter*cos(mAng) , halfHeight + mBandCenter*sin(mAng) , radAmt*mBandWidth , radAmt*mBandWidth );
   ellipse( halfWidth + sBandCenter*cos(sAng) , halfHeight + sBandCenter*sin(sAng) , radAmt*sBandWidth , radAmt*sBandWidth );
   ellipse( halfWidth + hBandCenter*cos(hAng) , halfHeight + hBandCenter*sin(hAng) , radAmt*hBandWidth , radAmt*hBandWidth );
