@@ -63,9 +63,13 @@ void setup() {
   noFill();
   stroke(255);
   strokeWeight( 5);
+  millisOffset = hour()%12*60*60*1000 + minute()*60*1000 + second()*1000 - millis();
   
   
   outerRadius = 0.5*width - 10;
+  
+  
+  
   hBandCenter = 0.150*height;
   hBandWidth = 15;
   mBandCenter = 0.300*height;
@@ -74,9 +78,6 @@ void setup() {
   sBandWidth = 15;
   borderWidth = 2;
   radAmt = 3;
-  millisOffset = hour()%12*60*60*1000 + minute()*60*1000 + second()*1000 - millis();
-  
-  
   
   pg = createGraphics( width , height );
   pg.beginDraw();
@@ -228,6 +229,37 @@ void draw() {
   colFlg_thread_doneRendering1 = false;
   if( logOut ) { println( "frame: " , frameCount , "  time: " , millis() , "  RENDERDONE1" ); }
   
+  
+  noStroke();
+  fill(outlineColor);
+  
+  int t = millis() + millisOffset;
+  float sPart = float(t)/(60000)%1;
+  float mPart = float(t)/(3600000)%1;
+  float hPart = float(t)/(43200000)%1;
+  float sAng = (-0.25+sPart)*TWO_PI;
+  float mAng = (-0.25+mPart)*TWO_PI;
+  float hAng = (-0.25+hPart)*TWO_PI;
+  ellipse( halfWidth + mBandCenter*cos(mAng) , halfHeight + mBandCenter*sin(mAng) , radAmt*mBandWidth , radAmt*mBandWidth );
+  ellipse( halfWidth + sBandCenter*cos(sAng) , halfHeight + sBandCenter*sin(sAng) , radAmt*sBandWidth , radAmt*sBandWidth );
+  ellipse( halfWidth + hBandCenter*cos(hAng) , halfHeight + hBandCenter*sin(hAng) , radAmt*hBandWidth , radAmt*hBandWidth );
+  
+  image(pg , 0 , 0 );
+  
+  fill(bandColor);
+  ellipse( halfWidth + mBandCenter*cos(mAng) , halfHeight + mBandCenter*sin(mAng) , radAmt*mBandWidth - 2*borderWidth , radAmt*mBandWidth - 2*borderWidth );
+  ellipse( halfWidth + sBandCenter*cos(sAng) , halfHeight + sBandCenter*sin(sAng) , radAmt*sBandWidth - 2*borderWidth , radAmt*sBandWidth - 2*borderWidth );
+  ellipse( halfWidth + hBandCenter*cos(hAng) , halfHeight + hBandCenter*sin(hAng) , radAmt*hBandWidth - 2*borderWidth , radAmt*hBandWidth - 2*borderWidth );
+  noStroke();
+  fill(outlineColor);
+  strokeWeight(borderWidth);
+  ellipse( halfWidth + mBandCenter*cos(mAng) , halfHeight + mBandCenter*sin(mAng) , 0.5*radAmt*mBandWidth , 0.5*radAmt*mBandWidth );
+  ellipse( halfWidth + sBandCenter*cos(sAng) , halfHeight + sBandCenter*sin(sAng) , 0.5*radAmt*sBandWidth , 0.5*radAmt*sBandWidth );
+  ellipse( halfWidth + hBandCenter*cos(hAng) , halfHeight + hBandCenter*sin(hAng) , 0.5*radAmt*hBandWidth , 0.5*radAmt*hBandWidth );
+
+  
+  
+  
   colFlg_draw_goUpdate0 = true;
   while( !colFlag_thread_Updating0 ) {}
   colFlag_thread_Updating0 = false;
@@ -270,30 +302,5 @@ void draw() {
   
   
   
-  noStroke();
-  fill(outlineColor);
   
-  int t = millis() + millisOffset;
-  float sPart = float(t)/(60000)%1;
-  float mPart = float(t)/(3600000)%1;
-  float hPart = float(t)/(43200000)%1;
-  float sAng = (-0.25+sPart)*TWO_PI;
-  float mAng = (-0.25+mPart)*TWO_PI;
-  float hAng = (-0.25+hPart)*TWO_PI;
-  ellipse( halfWidth + mBandCenter*cos(mAng) , halfHeight + mBandCenter*sin(mAng) , radAmt*mBandWidth , radAmt*mBandWidth );
-  ellipse( halfWidth + sBandCenter*cos(sAng) , halfHeight + sBandCenter*sin(sAng) , radAmt*sBandWidth , radAmt*sBandWidth );
-  ellipse( halfWidth + hBandCenter*cos(hAng) , halfHeight + hBandCenter*sin(hAng) , radAmt*hBandWidth , radAmt*hBandWidth );
-  
-  image(pg , 0 , 0 );
-  
-  fill(bandColor);
-  ellipse( halfWidth + mBandCenter*cos(mAng) , halfHeight + mBandCenter*sin(mAng) , radAmt*mBandWidth - 2*borderWidth , radAmt*mBandWidth - 2*borderWidth );
-  ellipse( halfWidth + sBandCenter*cos(sAng) , halfHeight + sBandCenter*sin(sAng) , radAmt*sBandWidth - 2*borderWidth , radAmt*sBandWidth - 2*borderWidth );
-  ellipse( halfWidth + hBandCenter*cos(hAng) , halfHeight + hBandCenter*sin(hAng) , radAmt*hBandWidth - 2*borderWidth , radAmt*hBandWidth - 2*borderWidth );
-  noStroke();
-  fill(outlineColor);
-  strokeWeight(borderWidth);
-  ellipse( halfWidth + mBandCenter*cos(mAng) , halfHeight + mBandCenter*sin(mAng) , 0.5*radAmt*mBandWidth , 0.5*radAmt*mBandWidth );
-  ellipse( halfWidth + sBandCenter*cos(sAng) , halfHeight + sBandCenter*sin(sAng) , 0.5*radAmt*sBandWidth , 0.5*radAmt*sBandWidth );
-  ellipse( halfWidth + hBandCenter*cos(hAng) , halfHeight + hBandCenter*sin(hAng) , 0.5*radAmt*hBandWidth , 0.5*radAmt*hBandWidth );
 }

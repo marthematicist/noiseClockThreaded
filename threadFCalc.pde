@@ -7,7 +7,7 @@ float hSpeed = 0.01;
 float sDetail = 0.029;
 float sSpeed = 0.2;
 float bDetail = 0.049;
-float bSpeed = 0.3;
+float bSpeed = 2;
 
 void threadFCalc() {
   int num = PA.num;
