@@ -41,6 +41,7 @@ volatile boolean colFlag_thread_loopComplete1 = false;
 int halfWidth;
 int halfHeight;
 
+PGraphics pg;
 
 void setup() {
   size( 800 , 480 );
@@ -51,6 +52,17 @@ void setup() {
   stroke(255);
   strokeWeight( 5);
   
+  
+  pg = createGraphics( width , height );
+  pg.beginDraw();
+  pg.clear();
+  pg.noFill();
+  pg.strokeWeight(5);
+  pg.stroke(0);
+  pg.ellipse( 0.5*width , 0.5*height , width - 20 , width - 20 );
+  pg.stroke(255);
+  pg.ellipse( 0.5*width , 0.5*height , width - 25 , width - 25 );
+  pg.endDraw();
   
   PA = new PixelArray();
   fld0 = new float[PA.num];
@@ -198,5 +210,6 @@ void draw() {
   if( frameCount%60 == 0 ) {
     println( "frameRate: " , frameRate );
   }
-  ellipse( 0.5*width , 0.5*height ,width - 20 , width-20 );
+  
+  image(pg , 0 , 0 );
 }
