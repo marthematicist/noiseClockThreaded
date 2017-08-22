@@ -46,6 +46,11 @@ void setup() {
   size( 800 , 480 );
   halfWidth = width/2;
   halfHeight = height/2;
+  background(bgColor);
+  noFill();
+  stroke(255);
+  strokeWeight( 5);
+  
   
   PA = new PixelArray();
   fld0 = new float[PA.num];
@@ -135,10 +140,13 @@ void draw() {
   
   loadPixels();
   for( int i = 0 ; i < width*height ; i++ ) {
-    if( PA.I[i] < num0 ) {
-      pixels[ i ] = col0[ PA.I[i] ];
-    } else {
-      pixels[ i ] = col1[ PA.I[i]-num0 ];
+    
+    if( PA.I[i] >=0 ) {
+      if( PA.I[i] < num0 ) {
+        pixels[ i ] = col0[ PA.I[i] ];
+      } else {
+        pixels[ i ] = col1[ PA.I[i]-num0 ];
+      }
     }
   }
   updatePixels();
@@ -190,5 +198,5 @@ void draw() {
   if( frameCount%60 == 0 ) {
     println( "frameRate: " , frameRate );
   }
-  
+  ellipse( 0.5*width , 0.5*height ,width - 20 , width-20 );
 }

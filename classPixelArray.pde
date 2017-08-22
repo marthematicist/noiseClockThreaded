@@ -8,7 +8,7 @@ class PixelArray {
     ArrayList<Pix> PT = new ArrayList<Pix>();
     for( int x = 0 ; x < halfWidth ; x++ ) {
       for( int y = 0 ; y < halfHeight ; y++ ) {
-        if( y <= x ) {
+        if( y <= x && sqrt(float(x*x+y*y)) <= 0.5*width - 10 ) {
           PT.add( new Pix( x , y ) );
           num++;
         }
@@ -20,6 +20,9 @@ class PixelArray {
     }
     
     this.I = new int[width*height];
+    for( int i = 0 ; i < width*height ; i++ ) {
+      I[i] = -1;
+    }
     for( int i = 0 ; i < num ; i++ ) {
       for( int p = 0 ; p < P[i].np ; p++ ) {
         I[ P[i].xp[p] + P[i].yp[p]*width ] = i;
