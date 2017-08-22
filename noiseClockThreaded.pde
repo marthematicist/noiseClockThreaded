@@ -75,7 +75,41 @@ void setup() {
   millisOffset = millis() - second()*1000;
   
   
-
+  pg = createGraphics( width , height );
+  pg.beginDraw();
+  pg.clear();
+  pg.noFill();
+  pg.strokeWeight(2*borderWidth);
+  pg.stroke(bgColor);
+  pg.ellipse( 0.5*width , 0.5*height , 2*outerRadius , 2*outerRadius );
+  pg.stroke(outlineColor);
+  pg.ellipse( 0.5*width , 0.5*height , 2*outerRadius-3 , 2*outerRadius-3 );
+  
+  pg.stroke(bandColor);
+  pg.strokeWeight(hBandWidth-0.5*borderWidth);
+  pg.ellipse( 0.5*width , 0.5*height , 2*(hBandCenter) , 2*(hBandCenter) );
+  pg.stroke(outlineColor);
+  pg.strokeWeight(borderWidth);
+  pg.ellipse( 0.5*width , 0.5*height , 2*(hBandCenter - 0.5*hBandWidth) , 2*(hBandCenter - 0.5*hBandWidth) );
+  pg.ellipse( 0.5*width , 0.5*height , 2*(hBandCenter + 0.5*hBandWidth) , 2*(hBandCenter + 0.5*hBandWidth) );
+  
+  pg.stroke(bandColor);
+  pg.strokeWeight(mBandWidth-0.5*borderWidth);
+  pg.ellipse( 0.5*width , 0.5*height , 2*(mBandCenter) , 2*(mBandCenter) );
+  pg.stroke(outlineColor);
+  pg.strokeWeight(borderWidth);
+  pg.ellipse( 0.5*width , 0.5*height , 2*(mBandCenter - 0.5*mBandWidth) , 2*(mBandCenter - 0.5*mBandWidth) );
+  pg.ellipse( 0.5*width , 0.5*height , 2*(mBandCenter + 0.5*mBandWidth) , 2*(mBandCenter + 0.5*mBandWidth) );
+  
+  pg.stroke(bandColor);
+  pg.strokeWeight(sBandWidth-0.5*borderWidth);
+  pg.ellipse( 0.5*width , 0.5*height , 2*(sBandCenter) , 2*(sBandCenter) );
+  pg.stroke(outlineColor);
+  pg.strokeWeight(borderWidth);
+  pg.ellipse( 0.5*width , 0.5*height , 2*(sBandCenter - 0.5*sBandWidth) , 2*(sBandCenter - 0.5*sBandWidth) );
+  pg.ellipse( 0.5*width , 0.5*height , 2*(sBandCenter + 0.5*sBandWidth) , 2*(sBandCenter + 0.5*sBandWidth) );
+  
+  pg.endDraw();
   
   PA = new PixelArray();
   fld0 = new float[PA.num];
@@ -235,36 +269,7 @@ void draw() {
   ellipse( halfWidth + sBandCenter*cos(sAng) , halfHeight + sBandCenter*sin(sAng) , radAmt*sBandWidth , radAmt*sBandWidth );
   ellipse( halfWidth + hBandCenter*cos(hAng) , halfHeight + hBandCenter*sin(hAng) , radAmt*hBandWidth , radAmt*hBandWidth );
   
-  noFill();
-  strokeWeight(2*borderWidth);
-  stroke(bgColor);
-  ellipse( 0.5*width , 0.5*height , 2*outerRadius , 2*outerRadius );
-  stroke(outlineColor);
-  ellipse( 0.5*width , 0.5*height , 2*outerRadius-3 , 2*outerRadius-3 );
-  
-  stroke(bandColor);
-  strokeWeight(hBandWidth-0.5*borderWidth);
-  ellipse( 0.5*width , 0.5*height , 2*(hBandCenter) , 2*(hBandCenter) );
-  stroke(outlineColor);
-  strokeWeight(borderWidth);
-  ellipse( 0.5*width , 0.5*height , 2*(hBandCenter - 0.5*hBandWidth) , 2*(hBandCenter - 0.5*hBandWidth) );
-  ellipse( 0.5*width , 0.5*height , 2*(hBandCenter + 0.5*hBandWidth) , 2*(hBandCenter + 0.5*hBandWidth) );
-  
-  stroke(bandColor);
-  strokeWeight(mBandWidth-0.5*borderWidth);
-  ellipse( 0.5*width , 0.5*height , 2*(mBandCenter) , 2*(mBandCenter) );
-  stroke(outlineColor);
-  strokeWeight(borderWidth);
-  ellipse( 0.5*width , 0.5*height , 2*(mBandCenter - 0.5*mBandWidth) , 2*(mBandCenter - 0.5*mBandWidth) );
-  ellipse( 0.5*width , 0.5*height , 2*(mBandCenter + 0.5*mBandWidth) , 2*(mBandCenter + 0.5*mBandWidth) );
-  
-  stroke(bandColor);
-  strokeWeight(sBandWidth-0.5*borderWidth);
-  ellipse( 0.5*width , 0.5*height , 2*(sBandCenter) , 2*(sBandCenter) );
-  stroke(outlineColor);
-  strokeWeight(borderWidth);
-  ellipse( 0.5*width , 0.5*height , 2*(sBandCenter - 0.5*sBandWidth) , 2*(sBandCenter - 0.5*sBandWidth) );
-  ellipse( 0.5*width , 0.5*height , 2*(sBandCenter + 0.5*sBandWidth) , 2*(sBandCenter + 0.5*sBandWidth) );
+  image(pg , 0 , 0 );
   
   fill(bandColor);
   ellipse( halfWidth + mBandCenter*cos(mAng) , halfHeight + mBandCenter*sin(mAng) , radAmt*mBandWidth - 2*borderWidth , radAmt*mBandWidth - 2*borderWidth );
