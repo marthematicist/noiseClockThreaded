@@ -8,7 +8,13 @@ class PixelArray {
     ArrayList<Pix> PT = new ArrayList<Pix>();
     for( int x = 0 ; x < halfWidth ; x++ ) {
       for( int y = 0 ; y < halfHeight ; y++ ) {
-        if( y <= x && sqrt(float(x*x+y*y)) <= 0.5*width - 10 ) {
+        float r = sqrt(float(x*x+y*y));
+        if( y <= x && r <= outerRadius &&
+            !(r > hBandCenter - 0.5*hBandWidth && r < hBandCenter + 0.5*hBandWidth) &&
+            !(r > mBandCenter - 0.5*mBandWidth && r < mBandCenter + 0.5*mBandWidth) &&
+            !(r > sBandCenter - 0.5*sBandWidth && r < sBandCenter + 0.5*sBandWidth)
+        
+        ) {
           PT.add( new Pix( x , y ) );
           num++;
         }

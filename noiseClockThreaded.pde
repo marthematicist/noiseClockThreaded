@@ -43,6 +43,16 @@ int halfHeight;
 
 PGraphics pg;
 
+// clock constants
+float outerRadius;
+float sBandCenter;
+float sBandWidth;
+float mBandCenter;
+float mBandWidth;
+float hBandCenter;
+float hBandWidth;
+float borderWidth;
+
 void setup() {
   size( 800 , 480 );
   halfWidth = width/2;
@@ -53,15 +63,50 @@ void setup() {
   strokeWeight( 5);
   
   
+  outerRadius = 0.5*width - 10;
+  hBandCenter = 0.150*height;
+  hBandWidth = 10;
+  mBandCenter = 0.300*height;
+  mBandWidth = 10;
+  sBandCenter = 0.450*height;
+  sBandWidth = 10;
+  borderWidth = 2;
+  
+  
   pg = createGraphics( width , height );
   pg.beginDraw();
   pg.clear();
   pg.noFill();
-  pg.strokeWeight(5);
-  pg.stroke(0);
-  pg.ellipse( 0.5*width , 0.5*height , width - 20 , width - 20 );
-  pg.stroke(255);
-  pg.ellipse( 0.5*width , 0.5*height , width - 25 , width - 25 );
+  pg.strokeWeight(borderWidth);
+  pg.stroke(bgColor);
+  pg.ellipse( 0.5*width , 0.5*height , 2*outerRadius , 2*outerRadius );
+  pg.stroke(outlineColor);
+  pg.ellipse( 0.5*width , 0.5*height , 2*outerRadius-3 , 2*outerRadius-3 );
+  
+  pg.stroke(bandColor);
+  pg.strokeWeight(hBandWidth-0.5*borderWidth);
+  pg.ellipse( 0.5*width , 0.5*height , 2*(hBandCenter) , 2*(hBandCenter) );
+  pg.stroke(outlineColor);
+  pg.strokeWeight(borderWidth);
+  pg.ellipse( 0.5*width , 0.5*height , 2*(hBandCenter - 0.5*hBandWidth) , 2*(hBandCenter - 0.5*hBandWidth) );
+  pg.ellipse( 0.5*width , 0.5*height , 2*(hBandCenter + 0.5*hBandWidth) , 2*(hBandCenter + 0.5*hBandWidth) );
+  
+  pg.stroke(bandColor);
+  pg.strokeWeight(mBandWidth-0.5*borderWidth);
+  pg.ellipse( 0.5*width , 0.5*height , 2*(mBandCenter) , 2*(mBandCenter) );
+  pg.stroke(outlineColor);
+  pg.strokeWeight(borderWidth);
+  pg.ellipse( 0.5*width , 0.5*height , 2*(mBandCenter - 0.5*mBandWidth) , 2*(mBandCenter - 0.5*mBandWidth) );
+  pg.ellipse( 0.5*width , 0.5*height , 2*(mBandCenter + 0.5*mBandWidth) , 2*(mBandCenter + 0.5*mBandWidth) );
+  
+  pg.stroke(bandColor);
+  pg.strokeWeight(sBandWidth-0.5*borderWidth);
+  pg.ellipse( 0.5*width , 0.5*height , 2*(sBandCenter) , 2*(sBandCenter) );
+  pg.stroke(outlineColor);
+  pg.strokeWeight(borderWidth);
+  pg.ellipse( 0.5*width , 0.5*height , 2*(sBandCenter - 0.5*sBandWidth) , 2*(sBandCenter - 0.5*sBandWidth) );
+  pg.ellipse( 0.5*width , 0.5*height , 2*(sBandCenter + 0.5*sBandWidth) , 2*(sBandCenter + 0.5*sBandWidth) );
+  
   pg.endDraw();
   
   PA = new PixelArray();
@@ -211,5 +256,27 @@ void draw() {
     println( "frameRate: " , frameRate );
   }
   
+  
+  float radAmt = 5;
+  noStroke();
+  fill(outlineColor);
+  float sAng = (-0.25+float(second())/60.0)*TWO_PI;
+  float mAng = (-0.25+float(minute())/60.0)*TWO_PI;
+  float hAng = (-0.25+float(hour()%12)/12.0)*TWO_PI;
+  ellipse( halfWidth + mBandCenter*cos(mAng) , halfHeight + mBandCenter*sin(mAng) , radAmt*mBandWidth , radAmt*mBandWidth );
+  ellipse( halfWidth + sBandCenter*cos(sAng) , halfHeight + sBandCenter*sin(sAng) , radAmt*sBandWidth , radAmt*sBandWidth );
+  ellipse( halfWidth + hBandCenter*cos(hAng) , halfHeight + hBandCenter*sin(hAng) , radAmt*hBandWidth , radAmt*hBandWidth );
+  
   image(pg , 0 , 0 );
+  
+  fill(bandColor);
+  ellipse( halfWidth + mBandCenter*cos(mAng) , halfHeight + mBandCenter*sin(mAng) , radAmt*mBandWidth - 2*borderWidth , radAmt*mBandWidth - 2*borderWidth );
+  ellipse( halfWidth + sBandCenter*cos(sAng) , halfHeight + sBandCenter*sin(sAng) , radAmt*sBandWidth - 2*borderWidth , radAmt*sBandWidth - 2*borderWidth );
+  ellipse( halfWidth + hBandCenter*cos(hAng) , halfHeight + hBandCenter*sin(hAng) , radAmt*hBandWidth - 2*borderWidth , radAmt*hBandWidth - 2*borderWidth );
+  noFill();
+  stroke(outlineColor);
+  strokeWeight(borderWidth);
+  ellipse( halfWidth + mBandCenter*cos(mAng) , halfHeight + mBandCenter*sin(mAng) , 0.5*radAmt*mBandWidth , 0.5*radAmt*mBandWidth );
+  ellipse( halfWidth + sBandCenter*cos(sAng) , halfHeight + sBandCenter*sin(sAng) , 0.5*radAmt*sBandWidth , 0.5*radAmt*sBandWidth );
+  ellipse( halfWidth + hBandCenter*cos(hAng) , halfHeight + hBandCenter*sin(hAng) , 0.5*radAmt*hBandWidth , 0.5*radAmt*hBandWidth );
 }

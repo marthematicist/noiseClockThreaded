@@ -4,6 +4,7 @@ float alpha = 0.25;
 
 color bgColor = color( 0 , 0 , 0 );
 color outlineColor = color( 255 , 255 , 255 );
+color bandColor = color( 32 );
 
 //color bgColor = color( 255 , 255 , 255 );
 //color outlineColor = color( 0 , 0 , 0 );
