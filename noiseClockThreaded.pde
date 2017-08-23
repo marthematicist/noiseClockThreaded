@@ -231,9 +231,9 @@ void draw() {
   fill(outlineColor);
   
   int t = millis() + millisOffset;
-  float sPart = float(second())/60;
-  float mPart = float(minute())/60;
-  float hPart = float(hour()%12)/12;
+  float sPart = float(t)/(60000)%1;
+  float mPart = float(t)/(3600000)%1;
+  float hPart = float(t)/(43200000)%1;
   float sAng = (-0.25+sPart)*TWO_PI;
   float mAng = (-0.25+mPart)*TWO_PI;
   float hAng = (-0.25+hPart)*TWO_PI;
