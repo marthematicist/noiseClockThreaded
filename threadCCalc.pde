@@ -1,6 +1,6 @@
 // color calulation thread
 
-float alpha = 0.25;
+float alpha = 0.025;
 
 color bgColor = color( 0 , 0 , 0 );
 color outlineColor = color( 255 , 255 , 255 );
@@ -13,6 +13,8 @@ float[] bandStart = { 0.20 , 0.37 , 0.47 , 0.57 , 0.70 };
 float[] bandEnd   = { 0.30 , 0.43 , 0.53 , 0.63 , 0.80 };
 float[] bandWidth = { 0.007 , 0.007 , 0.007 , 0.007 , 0.007 };
 int numBands = 3;
+float ringOffset = 60;
+float bandOffset = 60;
 
 void threadCCalc0() {
   color[] col0a = new color[PA.num];
@@ -38,7 +40,7 @@ void threadCCalc0() {
       for( int b = 0 ; b < numBands ; b++ ) {
         if( fldVal >= (bandStart[b]-bandWidth[b]) && fldVal <= (bandEnd[b]+bandWidth[b]) ) {
           if( fldVal >= bandStart[b] && fldVal <= bandEnd[b] ) {
-            c = hsbColor( hueVal , satVal , briVal );
+            c = hsbColor( (hueVal + bandOffset*float(b)) + ringOffset*float(PA.B[i]) , satVal , briVal );
           } else {
             c = outlineColor;
           }
@@ -88,7 +90,7 @@ void threadCCalc1() {
       for( int b = 0 ; b < numBands ; b++ ) {
         if( fldVal >= (bandStart[b]-bandWidth[b]) && fldVal <= (bandEnd[b]+bandWidth[b]) ) {
           if( fldVal >= bandStart[b] && fldVal <= bandEnd[b] ) {
-            c = hsbColor( hueVal , satVal , briVal );
+            c = hsbColor( (hueVal + bandOffset*float(b)) + ringOffset*float(PA.B[i+num0]) , satVal , briVal );
           } else {
             c = outlineColor;
           }

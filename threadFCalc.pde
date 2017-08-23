@@ -28,7 +28,7 @@ void threadFCalc() {
   xb = new float[num];
   yb = new float[num];
   for( int i = 0 ; i < num ; i++ ) {
-    xf[i] = PA.P[i].xr * fDetail;
+    xf[i] = (PA.P[i].xr+4*float(PA.B[i])*width ) * fDetail;
     yf[i] = PA.P[i].yr * fDetail;
     xh[i] = (PA.P[i].xr+1*width) * hDetail;
     yh[i] = PA.P[i].yr * hDetail;

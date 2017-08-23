@@ -1,6 +1,7 @@
 class PixelArray {
   Pix[] P;
   int[] I;    // indices
+  int[] B;    // bands
   int num;
   
   PixelArray() {
@@ -21,8 +22,16 @@ class PixelArray {
       }
     }
     P = new Pix[num];
+    B = new int[num];
     for( int i = 0 ; i < num ; i++ ) {
       P[i] = PT.get(i).copy();
+      float x = float(P[i].xp[0]) - halfWidth;
+      float y = float(P[i].yp[0]) - halfHeight;
+      float r = sqrt( x*x + y*y );
+      if( r <= outerRadius && r >= sBandCenter - 0.5*sBandWidth ) { B[i] = 3; }
+      else if( r <= sBandCenter + 0.5*sBandWidth && r >= mBandCenter - 0.5*mBandWidth ) { B[i] = 2; }
+      else if( r <= mBandCenter + 0.5*mBandWidth && r >= hBandCenter - 0.5*hBandWidth ) { B[i] = 1; }
+      else { B[i] = 0; }
     }
     
     this.I = new int[width*height];
