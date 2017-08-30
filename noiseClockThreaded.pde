@@ -235,7 +235,7 @@ void draw() {
   float sPart;
   float mPart;
   float hPart;
-  if( frameRate < 16 ) {
+  if( frameRate < 10 ) {
     sPart = float(second())/60;
     mPart = ( float(minute()) + sPart) / 60;
     hPart = ( float(hour()%12) + mPart) / 12;

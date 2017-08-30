@@ -12,7 +12,7 @@ color bandColor = color( 32 );
 float[] bandStart = { 0.20 , 0.37 , 0.47 , 0.57 , 0.70 };
 float[] bandEnd   = { 0.30 , 0.43 , 0.53 , 0.63 , 0.80 };
 float[] bandWidth = { 0.007 , 0.007 , 0.007 , 0.007 , 0.007 };
-int numBands = 3;
+int numBands = 5;
 float ringOffset = 60;
 float bandOffset = 60;
 
